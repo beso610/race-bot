@@ -13,7 +13,7 @@ tier_list = ['x', 's', 'a', 'ab', 'b', 'bc', 'c', 'cd', 'd', 'de', 'e', 'ef', 'f
 def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
         title = 'Input Error', 
-        description = '**Ex.** `_s ttc 12 2 d`',
+        description = '`.s track rank format tier`',
         color = color_err
     )
 
