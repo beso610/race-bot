@@ -17,4 +17,4 @@ async def set(ctx, *args):
     """1レースごとの記録を登録する"""
     await ctx.send(embed=record.set_record(ctx, args))
 
-bot.run('DISCORD_BOT_TOKEN')
+bot.run(os.environ['DISCORD_BOT_TOKEN'])
