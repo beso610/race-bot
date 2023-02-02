@@ -32,7 +32,13 @@ def set_record(
 
     # 列のデータを取得し、最下行のidxを求める
     track_list = worksheet.col_values(TRACK_COL)
-    last_track_idx = len(track_list) + 1
+    last_track_idx = len(track_list)
+    
+    # 100行に達するごとに100行追加
+    if (last_track_idx % 100 == 0) and (last_track_idx != 0):
+        worksheet.add_rows(100)
+    
+    last_track_idx += 1
 
     # TODO: idxの値が全て同じであることを確認したい
 
