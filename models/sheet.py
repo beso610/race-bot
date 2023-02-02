@@ -15,6 +15,8 @@ sh = gc.open('race bot')
 def set_record(
     track_id: int,
     rank: int,
+    formt: int,
+    tier: str,
     sheet_name: str) -> int:
 
     try:
@@ -24,18 +26,22 @@ def set_record(
 
     TRACK_COL = 1
     RANK_COL = 2
-    TIME_COL = 3
+    FORMAT_COL = 3
+    TIER_COL = 4
+    TIME_COL = 5
 
     # 列のデータを取得し、最下行のidxを求める
     track_list = worksheet.col_values(TRACK_COL)
     last_track_idx = len(track_list) + 1
 
-    # TODO: idxの値が全て同じであることを確認
+    # TODO: idxの値が全て同じであることを確認したい
 
-    cell_list = worksheet.range('A{}:C{}'.format(last_track_idx, last_track_idx))
+    cell_list = worksheet.range('A{}:E{}'.format(last_track_idx, last_track_idx))
 
     cell_list[TRACK_COL-1].value = track_id
     cell_list[RANK_COL-1].value = rank
+    cell_list[FORMAT_COL-1].value = formt
+    cell_list[TIER_COL-1].value = tier
     cell_list[TIME_COL-1].value = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     worksheet.update_cells(cell_list)

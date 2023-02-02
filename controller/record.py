@@ -7,15 +7,18 @@ from track import track
 color_err = 0xff3333
 color_success = 0x00ff00
 
+format_list = [1, 2, 3, 4, 6]
+tier_list = ['x', 's', 'a', 'ab', 'b', 'bc', 'c', 'cd', 'd', 'de', 'e', 'ef', 'f', 'fg', 'g']
+
 def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
         title = 'Input Error', 
-        description = '**Ex.** `_s ttc 12`',
+        description = '**Ex.** `_s ttc 12 2 d`',
         color = color_err
     )
 
-    # expected args: [track, rank]
-    if len(args) != 2:
+    # expected args: [track, rank, format, tier]
+    if len(args) != 4:
         return embed_err
     
     # rank must be int
@@ -25,14 +28,22 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     # rank must be 1~12
     if int(args[1]) <= 0 or int(args[1]) >= 13:
         return embed_err
-    
-    rank = int(args[1])
+
+    if int(args[2]) not in format_list:
+        return embed_err
+
+    if args[3].lower() not in tier_list:
+        return embed_err
+
     track_id = track.track_to_id(args[0])
+    rank = int(args[1])
+    formt = int(args[2])
+    tier = args[3].lower()
 
     if track_id == -1:
         return embed_err
 
-    status = sheet.set_record(track_id, rank, sheet_name=str(ctx.author))
+    status = sheet.set_record(track_id, rank, formt, tier, sheet_name=str(ctx.author))
 
     if rank == 1:
         rank_description = '🥇 1st'
