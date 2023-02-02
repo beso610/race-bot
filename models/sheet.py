@@ -1,6 +1,4 @@
-import discord
 import gspread
-import json
 import datetime
 
 from oauth2client.service_account import ServiceAccountCredentials 
