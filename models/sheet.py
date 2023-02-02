@@ -1,4 +1,5 @@
 import os
+import discord
 import gspread
 import datetime
 
@@ -29,12 +30,15 @@ def set_record(
     rank: int,
     formt: int,
     tier: str,
-    sheet_name: str) -> int:
+    author: discord.member.Member) -> int:
 
+    # discord idでworksheetを検索
+    # 見つからなければ追加し、ユーザ名も保存しておく
     try:
-        worksheet = sh.worksheet(sheet_name)
+        worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
-        worksheet = sh.add_worksheet(title=sheet_name, rows=100, cols=20)
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet.update('T1', str(author))
 
     TRACK_COL = 1
     RANK_COL = 2

@@ -43,7 +43,7 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     if track_id == -1:
         return embed_err
 
-    status = sheet.set_record(track_id, rank, formt, tier, sheet_name=str(ctx.author))
+    status = sheet.set_record(track_id, rank, formt, tier, author=ctx.author)
 
     if rank == 1:
         rank_description = '🥇 1st'
