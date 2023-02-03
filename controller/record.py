@@ -84,6 +84,9 @@ def show_all_track_avg_record(ctx: commands.Context) -> discord.Embed:
     # spreadsheetから取得
     _, track_list, rank_list = sheet.show_all_track_avg_record(ctx.author)
 
+    if len(track_list) == 0:
+        return discord.Embed(title = 'No Record', color = color_err)
+        
     # コースごとの平均順位を計算
     avg_rank_per_track = track.calculate_avg_rank_per_track(track_list, rank_list)
     avg_rank_per_track_sort = sorted(avg_rank_per_track.items(), key=lambda x:x[1])
