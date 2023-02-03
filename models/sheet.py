@@ -112,7 +112,7 @@ def delete_record(author: discord.member.Member):
     if last_track_idx == 0:
         return 404, None
 
-    track_id = track_list[last_track_idx]
+    track_id = track_list[last_track_idx-1]
     
     # 1行消去
     worksheet.delete_row(last_track_idx)
