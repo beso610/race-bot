@@ -66,7 +66,7 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     return embed_err
 
 
-def show_avg_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
+def show_avg_record(ctx: commands.Context, args: list[str]) -> list[discord.Embed]:
     embed_err = discord.Embed(
         title = 'Input Error', 
         description = '`.showavg`',
@@ -78,30 +78,32 @@ def show_avg_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
         return show_all_track_avg_record(ctx)
     
     else:
-        return embed_err
+        return [embed_err]
 
-def show_all_track_avg_record(ctx: commands.Context) -> discord.Embed:
+def show_all_track_avg_record(ctx: commands.Context) -> list[discord.Embed]:
     # spreadsheetから取得
     _, track_list, rank_list = sheet.show_all_track_avg_record(ctx.author)
 
     if len(track_list) == 0:
-        return discord.Embed(title = 'No Record', color = color_err)
+        return [discord.Embed(title = 'No Record', color = color_err)]
 
     # コースごとの平均順位を計算
     avg_rank_per_track, cnt_rank_per_track = track.calculate_avg_rank_per_track(track_list, rank_list)
     avg_rank_per_track_sort = sorted(avg_rank_per_track.items(), key=lambda x:x[1])
 
-    embed = discord.Embed(
-		title = 'Avarage Rank [Tracks Played]',
-		color = color_success
-	)
+    embed_list = [discord.Embed(title='Avarage Rank [Tracks Played]', color=color_success)]
 
+    i = 0
     for (track_id, avg_rank) in avg_rank_per_track_sort:
+        idx_list = i // 25
+        # embedのfieldは25個までしか追加できないので、embedを追加
+        if (i % 25 == 0) and (i != 0):
+            embed_list.append(discord.Embed(title='Avarage Rank [Tracks Played]', color=color_success))
         track_name = info.TRACKS[track_id][0]
-        embed.add_field(name=track_name, value=f'{round(avg_rank, 2)}  [{cnt_rank_per_track[track_id]}]')
-        # embed.add_field(name=track_name, value=f'{round(avg_rank, 2)} / played: {cnt_rank_per_track[track_id]}')
+        embed_list[idx_list].add_field(name=track_name, value=f'{round(avg_rank, 2)}  [{cnt_rank_per_track[track_id]}]')
+        i += 1
     
-    return embed
+    return embed_list
 
 def count_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
