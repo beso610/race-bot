@@ -92,7 +92,7 @@ def show_all_track_avg_record(ctx: commands.Context) -> discord.Embed:
     avg_rank_per_track_sort = sorted(avg_rank_per_track.items(), key=lambda x:x[1])
 
     embed = discord.Embed(
-		title = 'Avarage Rank',
+		title = 'Avarage Rank [Tracks Played]',
 		color = color_success
 	)
 
