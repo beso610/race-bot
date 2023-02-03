@@ -86,3 +86,14 @@ def show_all_track_avg_record(author: discord.member.Member):
     # time_list = worksheet.col_values(TIME_COL)
 
     return 200, track_list, rank_list
+
+
+def show_all_track_count_record(author: discord.member.Member):
+    try:
+        worksheet = sh.worksheet(str(author.id))
+    except gspread.exceptions.WorksheetNotFound:
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet.update('T1', str(author))
+    
+    track_list = worksheet.col_values(TRACK_COL)
+    return 200, track_list
