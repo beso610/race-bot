@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import models.sheet as sheet
-from track import track
+from track import track, info
 
 
 color_err = 0xff3333
@@ -43,7 +43,7 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     if track_id == -1:
         return embed_err
 
-    status = sheet.set_record(track_id, rank, formt, tier, author=ctx.author)
+    status, _ = sheet.set_record(track_id, rank, formt, tier, author=ctx.author)
 
     if rank == 1:
         rank_description = '🥇 1st'
@@ -64,3 +64,37 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
         return embed
     
     return embed_err
+
+
+def show_avg_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
+    embed_err = discord.Embed(
+        title = 'Input Error', 
+        description = '`.showavg`',
+        color = color_err
+    )
+
+    # コマンドライン引数が入力されなかったら全てのコースの平均順位を表示
+    if len(args) == 0:
+        return show_all_track_avg_record(ctx)
+    
+    else:
+        return embed_err
+
+def show_all_track_avg_record(ctx: commands.Context) -> discord.Embed:
+    # spreadsheetから取得
+    _, track_list, rank_list = sheet.show_all_track_avg_record(ctx.author)
+
+    # コースごとの平均順位を計算
+    avg_rank_per_track = track.calculate_avg_rank_per_track(track_list, rank_list)
+    avg_rank_per_track_sort = sorted(avg_rank_per_track.items(), key=lambda x:x[1])
+
+    embed = discord.Embed(
+		title = 'Avarage Rank',
+		color = color_success
+	)
+
+    for (track_id, avg_rank) in avg_rank_per_track_sort:
+        track_name = info.TRACKS[track_id][0]
+        embed.add_field(name=track_name, value=f'{round(avg_rank, 2)}')
+    
+    return embed
