@@ -13,7 +13,7 @@ tier_list = ['x', 's', 'a', 'ab', 'b', 'bc', 'c', 'cd', 'd', 'de', 'e', 'ef', 'f
 def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
         title = 'Input Error', 
-        description = '`.s track rank format tier`',
+        description = '`.s format tier track rank`',
         color = color_err
     )
 
@@ -22,23 +22,23 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
         return embed_err
     
     # rank must be int
-    if not args[1].isdecimal():
+    if not args[3].isdecimal():
         return embed_err
 
     # rank must be 1~12
-    if int(args[1]) <= 0 or int(args[1]) >= 13:
+    if int(args[3]) <= 0 or int(args[3]) >= 13:
         return embed_err
 
-    if int(args[2]) not in format_list:
+    if int(args[0]) not in format_list:
         return embed_err
 
-    if args[3].lower() not in tier_list:
+    if args[1].lower() not in tier_list:
         return embed_err
 
-    track_id = track.track_to_id(args[0])
-    rank = int(args[1])
-    formt = int(args[2])
-    tier = args[3].lower()
+    track_id = track.track_to_id(args[2])
+    rank = int(args[3])
+    formt = int(args[0])
+    tier = args[1].lower()
 
     if track_id == -1:
         return embed_err
