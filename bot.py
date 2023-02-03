@@ -21,7 +21,7 @@ async def set(ctx, *args):
 @bot.command(aliases=['showavg', 'sa'])
 async def show_avg(ctx, *args):
     """コースの平均順位を表示する"""
-    embed_list = function.show_avg_record(ctx, args)
+    embed_list = record.show_avg_record(ctx, args)
     for embed in embed_list:
         await ctx.send(embed=embed)
 
