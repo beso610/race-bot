@@ -97,3 +97,23 @@ def show_all_track_count_record(author: discord.member.Member):
     
     track_list = worksheet.col_values(TRACK_COL)
     return 200, track_list
+
+def delete_record(author: discord.member.Member):
+    try:
+        worksheet = sh.worksheet(str(author.id))
+    except gspread.exceptions.WorksheetNotFound:
+        return 404, None
+    
+    # 列のデータを取得し、最下行のidxを求める
+    track_list = worksheet.col_values(TRACK_COL)
+    last_track_idx = len(track_list)
+
+    # 削除する行がない場合
+    if last_track_idx == 0:
+        return 404, None
+
+    track_id = track_list[last_track_idx]
+    
+    # 1行消去
+    worksheet.delete_row(last_track_idx)
+    return 200, track_id

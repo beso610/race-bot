@@ -138,3 +138,21 @@ def show_all_track_count_record(ctx: commands.Context) -> discord.Embed:
         embed.add_field(name=track_name, value=str(cnt))
     
     return embed
+
+
+def delete_record(ctx: commands.Context) -> discord.Embed:
+    code, track_id = sheet.delete_record(ctx.author)
+
+    if code == 404:
+        return discord.Embed(
+        title = 'No Record', 
+        color = color_err
+    )
+
+    track = info.TRACKS[int(track_id)][0]
+    embed = discord.Embed(
+		title = 'Delete Successful',
+        description = track,
+		color = color_success
+	)
+    return embed

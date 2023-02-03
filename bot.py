@@ -28,4 +28,9 @@ async def count(ctx, *args):
     """コースごとのプレイ回数を表示する"""
     await ctx.send(embed=record.count_record(ctx, args))
 
+@bot.command(aliases=['d', 'del'])
+async def delete(ctx):
+    """最新の記録を削除する"""
+    await ctx.send(embed=record.delete_record(ctx))
+
 bot.run(os.environ['DISCORD_BOT_TOKEN'])
