@@ -41,7 +41,7 @@ def calculate_avg_rank_per_track(track_list, rank_list):
     for track_id in sum_rank_per_track.keys():
         avg_rank_per_track[track_id] = sum_rank_per_track[track_id] / cnt_rank_per_track[track_id]
     
-    return avg_rank_per_track
+    return avg_rank_per_track, cnt_rank_per_track
 
 # コースのプレイ回数をカウント
 def count_per_track(track_list):
