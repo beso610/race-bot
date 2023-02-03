@@ -23,5 +23,9 @@ async def show_avg(ctx, *args):
     """コースの平均順位を表示する"""
     await ctx.send(embed=record.show_avg_record(ctx, args))
 
+@bot.command(aliases=['cnt'])
+async def count(ctx, *args):
+    """コースごとのプレイ回数を表示する"""
+    await ctx.send(embed=record.count_record(ctx, args))
 
 bot.run(os.environ['DISCORD_BOT_TOKEN'])

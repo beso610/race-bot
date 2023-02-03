@@ -86,7 +86,7 @@ def show_all_track_avg_record(ctx: commands.Context) -> discord.Embed:
 
     if len(track_list) == 0:
         return discord.Embed(title = 'No Record', color = color_err)
-        
+
     # コースごとの平均順位を計算
     avg_rank_per_track = track.calculate_avg_rank_per_track(track_list, rank_list)
     avg_rank_per_track_sort = sorted(avg_rank_per_track.items(), key=lambda x:x[1])
@@ -99,5 +99,41 @@ def show_all_track_avg_record(ctx: commands.Context) -> discord.Embed:
     for (track_id, avg_rank) in avg_rank_per_track_sort:
         track_name = info.TRACKS[track_id][0]
         embed.add_field(name=track_name, value=f'{round(avg_rank, 2)}')
+    
+    return embed
+
+def count_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
+    embed_err = discord.Embed(
+        title = 'Input Error', 
+        description = '`.cnt`',
+        color = color_err
+    )
+
+    # コマンドライン引数が入力されなかったら全てのコースのプレイ回数を表示
+    if len(args) == 0:
+        return show_all_track_count_record(ctx)
+    
+    else:
+        return embed_err
+    
+def show_all_track_count_record(ctx: commands.Context) -> discord.Embed:
+    # spreadsheetから取得
+    _, track_list = sheet.show_all_track_count_record(ctx.author)
+
+    if len(track_list) == 0:
+        return discord.Embed(title = 'No Record', color = color_err)
+
+    # コースごとの回数を計算
+    cnt_rank_per_track = track.count_per_track(track_list)
+    cnt_rank_per_track_sort = sorted(cnt_rank_per_track.items(), key=lambda x:x[1], reverse=True)
+
+    embed = discord.Embed(
+		title = 'Tracks Played',
+		color = color_success
+	)
+
+    for (track_id, cnt) in cnt_rank_per_track_sort:
+        track_name = info.TRACKS[track_id][0]
+        embed.add_field(name=track_name, value=str(cnt))
     
     return embed
