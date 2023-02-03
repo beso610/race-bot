@@ -24,6 +24,11 @@ credentials = ServiceAccountCredentials.from_json_keyfile_dict(credential, scope
 gc = gspread.authorize(credentials)
 sh = gc.open('race bot')
 
+TRACK_COL = 1
+RANK_COL = 2
+FORMAT_COL = 3
+TIER_COL = 4
+TIME_COL = 5
 
 def set_record(
     track_id: int,
@@ -39,12 +44,6 @@ def set_record(
     except gspread.exceptions.WorksheetNotFound:
         worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
         worksheet.update('T1', str(author))
-
-    TRACK_COL = 1
-    RANK_COL = 2
-    FORMAT_COL = 3
-    TIER_COL = 4
-    TIME_COL = 5
 
     # 列のデータを取得し、最下行のidxを求める
     track_list = worksheet.col_values(TRACK_COL)
@@ -68,4 +67,22 @@ def set_record(
 
     worksheet.update_cells(cell_list)
 
-    return 200
+    return 200, None
+
+
+def show_all_track_avg_record(author: discord.member.Member):
+    # discord idでworksheetを検索
+    # 見つからなければ追加し、ユーザ名も保存しておく
+    try:
+        worksheet = sh.worksheet(str(author.id))
+    except gspread.exceptions.WorksheetNotFound:
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet.update('T1', str(author))
+
+    track_list = worksheet.col_values(TRACK_COL)
+    rank_list = worksheet.col_values(RANK_COL)
+    # format_list = worksheet.col_values(FORMAT_COL)
+    # tier_list = worksheet.col_values(TIER_COL)
+    # time_list = worksheet.col_values(TIME_COL)
+
+    return 200, track_list, rank_list

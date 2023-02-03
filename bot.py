@@ -17,4 +17,11 @@ async def set(ctx, *args):
     """1レースごとの記録を登録する"""
     await ctx.send(embed=record.set_record(ctx, args))
 
+
+@bot.command(aliases=['showavg', 'sa'])
+async def show_avg(ctx, *args):
+    """コースの平均順位を表示する"""
+    await ctx.send(embed=record.show_avg_record(ctx, args))
+
+
 bot.run(os.environ['DISCORD_BOT_TOKEN'])
