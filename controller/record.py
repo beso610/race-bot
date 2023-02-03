@@ -98,7 +98,8 @@ def show_all_track_avg_record(ctx: commands.Context) -> discord.Embed:
 
     for (track_id, avg_rank) in avg_rank_per_track_sort:
         track_name = info.TRACKS[track_id][0]
-        embed.add_field(name=track_name, value=f'{round(avg_rank, 2)} / played: {cnt_rank_per_track[track_id]}')
+        embed.add_field(name=track_name, value=f'{round(avg_rank, 2)} / {cnt_rank_per_track[track_id]}')
+        # embed.add_field(name=track_name, value=f'{round(avg_rank, 2)} / played: {cnt_rank_per_track[track_id]}')
     
     return embed
 
