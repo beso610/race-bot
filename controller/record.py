@@ -8,7 +8,7 @@ color_err = 0xff3333
 color_success = 0x00ff00
 
 format_list = [1, 2, 3, 4, 6]
-tier_list = ['x', 's', 'a', 'ab', 'b', 'bc', 'c', 'cd', 'd', 'de', 'e', 'ef', 'f', 'fg', 'g', 'sq']
+tier_list = ['x', 's', 'a', 'ab', 'b', 'bc', 'c', 'cd', 'd', 'de', 'e', 'ef', 'f', 'fg', 'g', 'sq', 'w', 't']
 
 def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     embed_err = discord.Embed(
