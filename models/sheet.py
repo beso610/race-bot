@@ -70,7 +70,7 @@ def set_record(
     return 200, None
 
 
-def show_all_track_avg_record(author: discord.member.Member):
+def show_record(author: discord.member.Member):
     # discord idでworksheetを検索
     # 見つからなければ追加し、ユーザ名も保存しておく
     try:

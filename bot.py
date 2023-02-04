@@ -18,10 +18,17 @@ async def set(ctx, *args):
     await ctx.send(embed=record.set_record(ctx, args))
 
 
-@bot.command(aliases=['showavg', 'sa'])
-async def show_avg(ctx, *args):
+@bot.command(aliases=['avgrank', 'ar'])
+async def show_avg_rank(ctx, *args):
     """コースの平均順位を表示する"""
-    embed_list = record.show_avg_record(ctx, args)
+    embed_list = record.show_avg_rank(ctx, args)
+    for embed in embed_list:
+        await ctx.send(embed=embed)
+
+@bot.command(aliases=['avgscore', 'as'])
+async def show_avg_score(ctx, *args):
+    """コースの平均点数を表示する"""
+    embed_list = record.show_avg_score(ctx, args)
     for embed in embed_list:
         await ctx.send(embed=embed)
 
