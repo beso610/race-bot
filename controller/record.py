@@ -100,7 +100,7 @@ def show_avg_rank_all_track(ctx: commands.Context) -> list[discord.Embed]:
         if (i % 25 == 0) and (i != 0):
             embed_list.append(discord.Embed(title='Avarage Rank [Tracks Played]', color=color_success))
         track_name = info.TRACKS[track_id][0]
-        embed_list[idx_list].add_field(name=track_name, value=f'{round(avg_rank, 2)}  [{cnt_per_track[track_id]}]')
+        embed_list[idx_list].add_field(name=track_name, value=f'> {round(avg_rank, 2)}  [{cnt_per_track[track_id]}]')
         i += 1
     
     return embed_list
@@ -140,7 +140,7 @@ def show_avg_score_all_track(ctx: commands.Context) -> list[discord.Embed]:
         if (i % 25 == 0) and (i != 0):
             embed_list.append(discord.Embed(title='Avarage Score [Tracks Played]', color=color_success))
         track_name = info.TRACKS[track_id][0]
-        embed_list[idx_list].add_field(name=track_name, value=f'{round(avg_rank, 2)}  [{cnt_per_track[track_id]}]')
+        embed_list[idx_list].add_field(name=track_name, value=f'> {round(avg_rank, 2)}  [{cnt_per_track[track_id]}]')
         i += 1
     
     return embed_list
