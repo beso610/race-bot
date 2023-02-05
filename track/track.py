@@ -119,6 +119,47 @@ def calculate_avg_score_per_track(track_list, rank_list):
 
     return avg_score_per_track, cnt_per_track
 
+# 条件ごとに平均点数を計算
+def calculate_avg_score_by_condition(track_id_inp, formt_inp, tier_inp, track_list, rank_list, format_list, tier_list):
+    # key: track_id, value: sum of score
+    sum_score_per_track = dict()
+
+    # key: track_id, value: times of track
+    cnt_per_track = dict()
+
+    # key: track_id, value: avg of score
+    avg_score_per_track = dict()
+
+    for i in range(len(track_list)):
+        track_id = int(track_list[i])
+        rank = int(rank_list[i])
+        formt = int(format_list[i])
+        tier = tier_list[i]
+
+        # True: 取得
+        get_row = True
+
+        # 引数があり、かつ値が異なる場合はその行を取得しない
+        if (track_id_inp != None) and (track_id_inp != track_id):
+            get_row = False
+        if (formt_inp != None) and (formt_inp != formt):
+            get_row = False
+        if (tier_inp != None) and (tier_inp != tier):
+            get_row = False
+        
+        if get_row:
+            if (track_id in sum_score_per_track) and (rank != ''):
+                sum_score_per_track[track_id] += score_list[rank-1]
+                cnt_per_track[track_id] += 1
+            elif (track_id not in sum_score_per_track) and (rank != ''):
+                sum_score_per_track[track_id] = score_list[rank-1]
+                cnt_per_track[track_id] = 1
+        
+    # コースごとの平均を求める
+    for track_id in sum_score_per_track.keys():
+        avg_score_per_track[track_id] = sum_score_per_track[track_id] / cnt_per_track[track_id]
+    
+    return avg_score_per_track, cnt_per_track
 
 # コースのプレイ回数をカウント
 def count_per_track(track_list):
