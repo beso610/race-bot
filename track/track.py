@@ -6,7 +6,7 @@ score_list = [15, 12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 def track_to_id(track_name: str) -> int:
     # 一致するコース名を検索
     for i, track_info in enumerate(info.TRACKS):
-        if track_name in track_info[1]:
+        if track_name.lower() in track_info[1]:
             return i
     
     return -1
