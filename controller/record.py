@@ -100,14 +100,14 @@ def show_avg_rank_all_track(ctx: commands.Context) -> list[discord.Embed]:
     avg_rank_per_track, cnt_per_track = track.calculate_avg_rank_per_track(track_list, rank_list)
     avg_rank_per_track_sort = sorted(avg_rank_per_track.items(), key=lambda x:x[1])
 
-    embed_list = [discord.Embed(title='Avarage Rank [Tracks Played]', color=color_success)]
+    embed_list = [discord.Embed(title='Average Rank [Tracks Played]', color=color_success)]
 
     i = 0
     for (track_id, avg_rank) in avg_rank_per_track_sort:
         idx_list = i // 25
         # embedのfieldは25個までしか追加できないので、embedを追加
         if (i % 25 == 0) and (i != 0):
-            embed_list.append(discord.Embed(title='Avarage Rank [Tracks Played]', color=color_success))
+            embed_list.append(discord.Embed(title='Average Rank [Tracks Played]', color=color_success))
         track_name = info.TRACKS[track_id][0]
         embed_list[idx_list].add_field(name=track_name, value=f'> {round(avg_rank, 2)}  [{cnt_per_track[track_id]}]')
         i += 1
@@ -156,14 +156,14 @@ def show_avg_rank_by_condition(ctx: commands.Context, args: list[str]) -> list[d
     else:
         tier_title = ''
 
-    embed_list = [discord.Embed(title=f'Avarage Rank{formt_title}{tier_title} [Tracks Played]', color=color_success)]
+    embed_list = [discord.Embed(title=f'Average Rank{formt_title}{tier_title} [Tracks Played]', color=color_success)]
 
     i = 0
     for (track_id, avg_rank) in avg_rank_per_track_sort:
         idx_list = i // 25
         # embedのfieldは25個までしか追加できないので、embedを追加
         if (i % 25 == 0) and (i != 0):
-            embed_list.append(discord.Embed(title=f'Avarage Rank{formt_title}{tier_title} [Tracks Played]', color=color_success))
+            embed_list.append(discord.Embed(title=f'Average Rank{formt_title}{tier_title} [Tracks Played]', color=color_success))
         track_name = info.TRACKS[track_id][0]
         embed_list[idx_list].add_field(name=track_name, value=f'> {round(avg_rank, 2)}  [{cnt_per_track[track_id]}]')
         i += 1
@@ -199,14 +199,14 @@ def show_avg_score_all_track(ctx: commands.Context) -> list[discord.Embed]:
     avg_score_per_track, cnt_per_track = track.calculate_avg_score_per_track(track_list, rank_list)
     avg_score_per_track_sort = sorted(avg_score_per_track.items(), key=lambda x:x[1], reverse=True)
 
-    embed_list = [discord.Embed(title='Avarage Score [Tracks Played]', color=color_success)]
+    embed_list = [discord.Embed(title='Average Score [Tracks Played]', color=color_success)]
 
     i = 0
     for (track_id, avg_score) in avg_score_per_track_sort:
         idx_list = i // 25
         # embedのfieldは25個までしか追加できないので、embedを追加
         if (i % 25 == 0) and (i != 0):
-            embed_list.append(discord.Embed(title='Avarage Score [Tracks Played]', color=color_success))
+            embed_list.append(discord.Embed(title='Average Score [Tracks Played]', color=color_success))
         track_name = info.TRACKS[track_id][0]
         embed_list[idx_list].add_field(name=track_name, value=f'> {round(avg_score, 2)} pts [{cnt_per_track[track_id]}]')
         i += 1
@@ -255,14 +255,14 @@ def show_avg_score_by_condition(ctx: commands.Context, args: list[str]) -> list[
     else:
         tier_title = ''
 
-    embed_list = [discord.Embed(title=f'Avarage Score{formt_title}{tier_title} [Tracks Played]', color=color_success)]
+    embed_list = [discord.Embed(title=f'Average Score{formt_title}{tier_title} [Tracks Played]', color=color_success)]
 
     i = 0
     for (track_id, avg_score) in avg_score_per_track_sort:
         idx_list = i // 25
         # embedのfieldは25個までしか追加できないので、embedを追加
         if (i % 25 == 0) and (i != 0):
-            embed_list.append(discord.Embed(title=f'Avarage Score{formt_title}{tier_title} [Tracks Played]', color=color_success))
+            embed_list.append(discord.Embed(title=f'Average Score{formt_title}{tier_title} [Tracks Played]', color=color_success))
         track_name = info.TRACKS[track_id][0]
         embed_list[idx_list].add_field(name=track_name, value=f'> {round(avg_score, 2)} pts [{cnt_per_track[track_id]}]')
         i += 1
