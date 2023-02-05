@@ -70,7 +70,7 @@ def set_record(
     return 200, None
 
 
-def show_record(author: discord.member.Member):
+def show_track(author: discord.member.Member):
     # discord idでworksheetを検索
     # 見つからなければ追加し、ユーザ名も保存しておく
     try:
@@ -81,11 +81,41 @@ def show_record(author: discord.member.Member):
 
     track_list = worksheet.col_values(TRACK_COL)
     rank_list = worksheet.col_values(RANK_COL)
-    # format_list = worksheet.col_values(FORMAT_COL)
-    # tier_list = worksheet.col_values(TIER_COL)
-    # time_list = worksheet.col_values(TIME_COL)
 
-    return 200, track_list, rank_list
+    return 200, track_list
+
+
+def show_rank(author: discord.member.Member):
+    try:
+        worksheet = sh.worksheet(str(author.id))
+    except gspread.exceptions.WorksheetNotFound:
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet.update('T1', str(author))
+
+    rank_list = worksheet.col_values(RANK_COL)
+    return 200, rank_list
+
+
+def show_format(author: discord.member.Member):
+    try:
+        worksheet = sh.worksheet(str(author.id))
+    except gspread.exceptions.WorksheetNotFound:
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet.update('T1', str(author))
+
+    format_list = worksheet.col_values(FORMAT_COL)
+    return 200, format_list
+
+
+def show_tier(author: discord.member.Member):
+    try:
+        worksheet = sh.worksheet(str(author.id))
+    except gspread.exceptions.WorksheetNotFound:
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet.update('T1', str(author))
+
+    tier_list = worksheet.col_values(TIER_COL)
+    return 200, tier_list
 
 
 def show_all_track_count_record(author: discord.member.Member):
