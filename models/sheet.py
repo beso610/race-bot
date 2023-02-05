@@ -49,8 +49,8 @@ def set_record(
     track_list = worksheet.col_values(TRACK_COL)
     last_track_idx = len(track_list)
     
-    # 100行に達するごとに100行追加
-    if (last_track_idx % 100 == 0) and (last_track_idx != 0):
+    # 最下行に達するごとに100行追加
+    if last_track_idx == worksheet.row_count:
         worksheet.add_rows(100)
     
     last_track_idx += 1
