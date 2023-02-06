@@ -43,7 +43,7 @@ def set_record(
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
         worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
-        worksheet.update('T1', str(author))
+        worksheet.update('F1', str(author))
 
     # 列のデータを取得し、最下行のidxを求める
     track_list = worksheet.col_values(TRACK_COL)
@@ -77,7 +77,7 @@ def show_track(author: discord.member.Member):
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
         worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
-        worksheet.update('T1', str(author))
+        worksheet.update('F1', str(author))
 
     track_list = worksheet.col_values(TRACK_COL)
     rank_list = worksheet.col_values(RANK_COL)
@@ -90,7 +90,7 @@ def show_rank(author: discord.member.Member):
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
         worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
-        worksheet.update('T1', str(author))
+        worksheet.update('F1', str(author))
 
     rank_list = worksheet.col_values(RANK_COL)
     return 200, rank_list
@@ -101,7 +101,7 @@ def show_format(author: discord.member.Member):
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
         worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
-        worksheet.update('T1', str(author))
+        worksheet.update('F1', str(author))
 
     format_list = worksheet.col_values(FORMAT_COL)
     return 200, format_list
@@ -112,7 +112,7 @@ def show_tier(author: discord.member.Member):
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
         worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
-        worksheet.update('T1', str(author))
+        worksheet.update('F1', str(author))
 
     tier_list = worksheet.col_values(TIER_COL)
     return 200, tier_list
@@ -123,7 +123,7 @@ def show_all_track_count_record(author: discord.member.Member):
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
         worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
-        worksheet.update('T1', str(author))
+        worksheet.update('F1', str(author))
     
     track_list = worksheet.col_values(TRACK_COL)
     return 200, track_list
