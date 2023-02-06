@@ -124,12 +124,12 @@ def show_avg_rank_by_condition(ctx: commands.Context, args: list[str]) -> list[d
     for l in args:
         # 引数の種類を判定
         tmp_track_id = track.track_to_id(l.lower())
-        if (tmp_track_id != -1) and track_id == None:
-            track_id = tmp_track_id
-        elif (l.isdecimal()) and (int(l) in FORMAT_LIST) and (formt == None):
+        if (l.isdecimal()) and (int(l) in FORMAT_LIST) and (formt == None):
             formt = int(l)
         elif (l.lower() in TIER_LIST) and (tier == None):
             tier = l.lower()
+        elif (tmp_track_id != -1) and track_id == None:
+            track_id = tmp_track_id
         else:
             return [discord.Embed(title='Input Error', description='`.avgrank`', color=color_err)]
 
@@ -224,12 +224,12 @@ def show_avg_score_by_condition(ctx: commands.Context, args: list[str]) -> list[
     for l in args:
         # 引数の種類を判定
         tmp_track_id = track.track_to_id(l.lower())
-        if (tmp_track_id != -1) and track_id == None:
-            track_id = tmp_track_id
-        elif (l.isdecimal()) and (int(l) in FORMAT_LIST) and (formt == None):
+        if (l.isdecimal()) and (int(l) in FORMAT_LIST) and (formt == None):
             formt = int(l)
         elif (l.lower() in TIER_LIST) and (tier == None):
             tier = l.lower()
+        elif (tmp_track_id != -1) and track_id == None:
+            track_id = tmp_track_id
         else:
             return [discord.Embed(title='Input Error', description='`.avgscore`', color=color_err)]
 
