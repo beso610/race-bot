@@ -192,7 +192,7 @@ def show_avg_score(ctx: commands.Context, args: list[str]) -> list[discord.Embed
 def show_avg_score_all_track(ctx: commands.Context) -> list[discord.Embed]:
     # spreadsheetから取得
     _, track_list = sheet.show_track(ctx.author)
-    _, rank_list = sheet.show_track(ctx.author)    
+    _, rank_list = sheet.show_rank(ctx.author)    
 
     if len(track_list) == 0:
         return [discord.Embed(title = 'No Record', color = color_err)]
