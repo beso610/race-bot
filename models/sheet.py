@@ -42,7 +42,7 @@ def set_record(
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
-        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
         worksheet.update('T1', str(author))
 
     # 列のデータを取得し、最下行のidxを求める
@@ -76,7 +76,7 @@ def show_track(author: discord.member.Member):
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
-        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
         worksheet.update('T1', str(author))
 
     track_list = worksheet.col_values(TRACK_COL)
@@ -89,7 +89,7 @@ def show_rank(author: discord.member.Member):
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
-        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
         worksheet.update('T1', str(author))
 
     rank_list = worksheet.col_values(RANK_COL)
@@ -100,7 +100,7 @@ def show_format(author: discord.member.Member):
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
-        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
         worksheet.update('T1', str(author))
 
     format_list = worksheet.col_values(FORMAT_COL)
@@ -111,7 +111,7 @@ def show_tier(author: discord.member.Member):
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
-        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
         worksheet.update('T1', str(author))
 
     tier_list = worksheet.col_values(TIER_COL)
@@ -122,7 +122,7 @@ def show_all_track_count_record(author: discord.member.Member):
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
-        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=20)
+        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
         worksheet.update('T1', str(author))
     
     track_list = worksheet.col_values(TRACK_COL)
