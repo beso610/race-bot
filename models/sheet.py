@@ -66,6 +66,7 @@ def set_record(
     cell_list[TIME_COL-1].value = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     worksheet.update_cells(cell_list)
+    worksheet.update('F1', str(author))
 
     return 200, None
 
