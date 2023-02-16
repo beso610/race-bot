@@ -255,7 +255,11 @@ def show_avg_score_by_condition(ctx: commands.Context, args: list[str]) -> list[
         formt_title = f' | Format: {formt}'
     else:
         formt_title = ''
-    if tier != None:
+    if tier == 't':
+        tier_title = ' | Tournament'
+    elif tier == 'w':
+        tier_title = ' | Worlds'
+    elif tier != None:
         tier_title = f' | Tier: {tier.upper()}'
     else:
         tier_title = ''
