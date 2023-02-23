@@ -348,8 +348,24 @@ def show_count_record_by_condition(ctx: commands.Context, args: list[str]) -> di
     cnt_per_track = track.count_by_condition(track_id, formt, tier, extracted_track, extracted_rank, extracted_format, extracted_tier)
     cnt_per_track_sort = sorted(cnt_per_track.items(), key=lambda x:x[1], reverse=True)
 
+    if len(cnt_per_track_sort) == 0:
+        return discord.Embed(title='No Record', color=color_err)
+
+    if formt != None:
+        formt_title = f' | Format: {formt}'
+    else:
+        formt_title = ''
+    if tier == 't':
+        tier_title = ' | Tournament'
+    elif tier == 'w':
+        tier_title = ' | Worlds'
+    elif tier != None:
+        tier_title = f' | Tier: {tier.upper()}'
+    else:
+        tier_title = ''
+
     embed = discord.Embed(
-		title = 'Tracks Played',
+		title = f'Tracks Played{formt_title}{tier_title}',
 		color = color_success
 	)
 
