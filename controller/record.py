@@ -290,8 +290,11 @@ def count_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
     if len(args) == 0:
         return show_all_track_count_record(ctx)
     
-    else:
+    elif len(args) >= 4:
         return embed_err
+
+    else:
+        return show_count_record_by_condition(ctx, args)
 
 def show_all_track_count_record(ctx: commands.Context) -> discord.Embed:
     # spreadsheetから取得
@@ -301,7 +304,48 @@ def show_all_track_count_record(ctx: commands.Context) -> discord.Embed:
         return discord.Embed(title = 'No Record', color = color_err)
 
     # コースごとの回数を計算
-    cnt_per_track = track.count_per_track(track_list)
+    cnt_per_track = track.count(track_list)
+    cnt_per_track_sort = sorted(cnt_per_track.items(), key=lambda x:x[1], reverse=True)
+
+    embed = discord.Embed(
+		title = 'Tracks Played',
+		color = color_success
+	)
+
+    for (track_id, cnt) in cnt_per_track_sort:
+        track_name = info.TRACKS[track_id][0]
+        embed.add_field(name=track_name, value=str(cnt))
+    
+    return embed
+
+
+def show_count_record_by_condition(ctx: commands.Context, args: list[str]) -> discord.Embed:
+    track_id = None
+    formt = None
+    tier = None
+    extracted_format = None
+    extracted_tier = None
+    for l in args:
+        # 引数の種類を判定
+        tmp_track_id = track.track_to_id(l.lower())
+        if (l.isdecimal()) and (int(l) in FORMAT_LIST) and (formt == None):
+            formt = int(l)
+        elif (l.lower() in TIER_LIST) and (tier == None):
+            tier = l.lower()
+        elif (tmp_track_id != -1) and track_id == None:
+            track_id = tmp_track_id
+        else:
+            return [discord.Embed(title='Input Error', description='`.cnt`', color=color_err)]
+
+    _, extracted_track = sheet.show_track(ctx.author)
+    _, extracted_rank = sheet.show_rank(ctx.author)
+    _, extracted_format = sheet.show_format(ctx.author)
+    _, extracted_tier = sheet.show_tier(ctx.author)
+
+    if (len(extracted_track) == 0) or (len(extracted_rank) == 0):
+        return [discord.Embed(title='No Record', color=color_err)]
+
+    cnt_per_track = track.count_by_condition(track_id, formt, tier, extracted_track, extracted_rank, extracted_format, extracted_tier)
     cnt_per_track_sort = sorted(cnt_per_track.items(), key=lambda x:x[1], reverse=True)
 
     embed = discord.Embed(
