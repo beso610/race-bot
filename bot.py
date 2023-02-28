@@ -16,7 +16,7 @@ intents.message_content = True
 
 class RaceBot(commands.AutoShardedBot):
 
-    def __init__(self, command_prefix=commands.when_mentioned_or("$"), *, intents: discord.Intents = intents) -> None:
+    def __init__(self, command_prefix=commands.when_mentioned_or("."), *, intents: discord.Intents = intents) -> None:
         super().__init__(command_prefix, intents=intents)
 
     async def setup_hook(self) -> None:
