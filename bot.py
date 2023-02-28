@@ -5,7 +5,7 @@ from discord import app_commands
 import logging
 import asyncio
 from typing import Optional
-from controller import score, rank, count, delete, sets
+from controller import deletes, score, rank, count, sets
 
 logging.basicConfig(level=logging.INFO)
 
@@ -119,7 +119,7 @@ async def count(
 @bot.command(aliases=['d', 'del'])
 async def delete(ctx):
     """最新の記録を削除する"""
-    await ctx.send(embeds=delete.delete_record(ctx))
+    await ctx.send(embeds=deletes.delete_record(ctx))
 
 
 @bot.event
