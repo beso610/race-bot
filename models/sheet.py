@@ -70,8 +70,8 @@ def set_record(
 
     return 200, None
 
-
-def show_track(author: discord.member.Member):
+# TODO: 一般性を高くするために、引数をstringにする
+def fetch_tracks(author: discord.member.Member):
     # discord idでworksheetを検索
     # 見つからなければ追加し、ユーザ名も保存しておく
     try:
@@ -81,12 +81,9 @@ def show_track(author: discord.member.Member):
         worksheet.update('F1', str(author))
 
     track_list = worksheet.col_values(TRACK_COL)
-    rank_list = worksheet.col_values(RANK_COL)
-
     return 200, track_list
 
-
-def show_rank(author: discord.member.Member):
+def fetch_ranks(author: discord.member.Member):
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
@@ -97,7 +94,7 @@ def show_rank(author: discord.member.Member):
     return 200, rank_list
 
 
-def show_format(author: discord.member.Member):
+def fetch_formats(author: discord.member.Member):
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
@@ -108,7 +105,7 @@ def show_format(author: discord.member.Member):
     return 200, format_list
 
 
-def show_tier(author: discord.member.Member):
+def fetch_tiers(author: discord.member.Member):
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:
@@ -119,17 +116,7 @@ def show_tier(author: discord.member.Member):
     return 200, tier_list
 
 
-def show_all_track_count_record(author: discord.member.Member):
-    try:
-        worksheet = sh.worksheet(str(author.id))
-    except gspread.exceptions.WorksheetNotFound:
-        worksheet = sh.add_worksheet(title=str(author.id), rows=100, cols=6)
-        worksheet.update('F1', str(author))
-    
-    track_list = worksheet.col_values(TRACK_COL)
-    return 200, track_list
-
-def delete_record(author: discord.member.Member):
+def delete_records(author: discord.member.Member):
     try:
         worksheet = sh.worksheet(str(author.id))
     except gspread.exceptions.WorksheetNotFound:

@@ -1,11 +1,30 @@
 import os
 import discord
 from discord.ext import commands
-from controller import record
+from discord import app_commands
+import logging
+import asyncio
+from typing import Optional
+from controller import score, rank, count, delete, sets
 
+logging.basicConfig(level=logging.INFO)
+
+token = os.environ['DISCORD_BOT_TOKEN']
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix='.', intents=intents)
+
+
+class RaceBot(commands.AutoShardedBot):
+
+    def __init__(self, command_prefix=commands.when_mentioned_or("$"), *, intents: discord.Intents = intents) -> None:
+        super().__init__(command_prefix, intents=intents)
+
+    async def setup_hook(self) -> None:
+        await bot.tree.sync()
+
+
+bot = RaceBot(intents=intents)
+
 
 @bot.event
 async def on_ready():
@@ -14,35 +33,129 @@ async def on_ready():
         activity=discord.Activity(status=discord.Status.online, type=discord.ActivityType.watching,
                                   name=f"{len(bot.guilds)} servers"))
 
-
-@bot.command(aliases=['s', 'S'])
+@bot.command(aliases=['s'])
 async def set(ctx, *args):
     """1レースごとの記録を登録する"""
-    await ctx.send(embed=record.set_record(ctx, args))
+    await ctx.send(embed=sets.set_record(ctx, args))
 
 
-@bot.command(aliases=['avgrank', 'ar'])
-async def show_avg_rank(ctx, *args):
+@bot.hybrid_command(
+    aliases=['ar'],
+    description='平均順位を表示する'
+)
+@app_commands.describe(
+    tracks='例: dkj',
+    formats='例: 2',
+    tiers='例: d',
+    min_count='指定の回数以上にしぼって表示する'
+)
+async def avgrank(
+    ctx: commands.Context,
+    *,
+    tracks: Optional[str] = None,
+    formats: Optional[int] = None,
+    tiers: Optional[str] = None,
+    min_count: Optional[int] = None,
+) -> None:
+    
     """コースの平均順位を表示する"""
-    embed_list = record.show_avg_rank(ctx, args)
-    for embed in embed_list:
-        await ctx.send(embed=embed)
+    if ctx.interaction is not None:
+        await ctx.interaction.response.defer(thinking=True)
+    embeds = await rank.show_avg_rank(ctx, tracks, formats, tiers, min_count)
+    await ctx.send(embeds=embeds)
 
-@bot.command(aliases=['avgscore', 'as'])
-async def show_avg_score(ctx, *args):
+
+
+@bot.hybrid_command(
+    aliases=['as'],
+    description='平均点数を表示する'
+)
+@app_commands.describe(
+    tracks='ex: dkj',
+    formats='ex: 2',
+    tiers='ex: d',
+    min_count='指定の回数以上にしぼって表示する'
+)
+async def avgscore(
+    ctx: commands.Context,
+    *,
+    tracks: Optional[str] = None,
+    formats: Optional[int] = None,
+    tiers: Optional[str] = None,
+    min_count: Optional[int] = None,
+) -> None:
+    
     """コースの平均点数を表示する"""
-    embed_list = record.show_avg_score(ctx, args)
-    for embed in embed_list:
-        await ctx.send(embed=embed)
+    if ctx.interaction is not None:
+        await ctx.interaction.response.defer(thinking=True)
+    embeds = await score.show_avg_score(ctx, tracks, formats, tiers, min_count)
+    await ctx.send(embeds=embeds)
 
-@bot.command(aliases=['cnt'])
-async def count(ctx, *args):
-    """コースごとのプレイ回数を表示する"""
-    await ctx.send(embed=record.count_record(ctx, args))
+
+@bot.hybrid_command(
+    aliases=['cnt'],
+    description='プレイ回数を表示する'
+)
+@app_commands.describe(
+    tracks='ex: dkj',
+    formats='ex: 2',
+    tiers='ex: d'
+)
+async def count(
+    ctx: commands.Context,
+    *,
+    tracks: Optional[str] = None,
+    formats: Optional[int] = None,
+    tiers: Optional[str] = None,
+) -> None:
+    
+    """コースのプレイ回数を表示する"""
+    if ctx.interaction is not None:
+        await ctx.interaction.response.defer(thinking=True)
+    embed = await count.count_record(ctx, tracks, formats, tiers)
+    await ctx.send(embed=embed)
+
 
 @bot.command(aliases=['d', 'del'])
 async def delete(ctx):
     """最新の記録を削除する"""
-    await ctx.send(embed=record.delete_record(ctx))
+    await ctx.send(embeds=delete.delete_record(ctx))
 
-bot.run(os.environ['DISCORD_BOT_TOKEN'])
+
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        return
+    if isinstance(error, commands.MissingRequiredArgument):
+        await(await ctx.send("Your command is missing an argument: `%s`" %
+                             str(error.param))).delete(delay=10)
+        return
+    if isinstance(error, commands.CommandOnCooldown):
+        await(await ctx.send("This command is on cooldown; try again in %.0fs"
+                             % error.retry_after)).delete(delay=5)
+        return
+    if isinstance(error, commands.MissingAnyRole):
+        await(await ctx.send("You need one of the following roles to use this command: `%s`"
+                             % (", ".join(error.missing_roles)))
+              ).delete(delay=10)
+        return
+    if isinstance(error, commands.BadArgument):
+        await(await ctx.send("BadArgument Error: `%s`" % error.args)).delete(delay=10)
+        return
+    if isinstance(error, commands.BotMissingPermissions):
+        await(await ctx.send("I need the following permissions to use this command: %s"
+                             % ", ".join(error.missing_perms))).delete(delay=10)
+        return
+    if isinstance(error, commands.NoPrivateMessage):
+        await(await ctx.send("You can't use this command in DMs!")).delete(delay=5)
+        return
+    if isinstance(error, commands.CheckFailure):
+        return
+    raise error
+
+
+async def main():
+    async with bot:
+        await bot.start(token)
+
+asyncio.run(main())

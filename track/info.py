@@ -89,7 +89,7 @@ bPG = {'bpg', 'pg', 'ピーチガーデン', 'ピチガ'}
 bMM = {'bmm', 'mm', 'メリーメリーマウンテン', 'メリマ', 'メリー'}
 bRR7 = {'brr7', 'brr', 'rr7', '3dsレインボーロード', '3ds虹', '3dsにじ', '7にじ'}
 
-TRACKS = [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon', SSC], ['Thwomp Ruins', TR], \
+TRACKS_EN = [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon', SSC], ['Thwomp Ruins', TR], \
     ['Mario Circuit', MC], ['Toad Harbor', TH], ['Twisted Mansion', TM], ['Shy Guy Falls', SGF], \
     ['Sunshine Airport', SA], ['Dolphin Shoals', DS], ['Electrodrome', Ed], ['Mount Wario', MW], \
     ['Cloudtop Cruise', CC], ['Bone-Dry Dunes', BDD], ["Bowser's Castle", BC], ['Rainbow Road', RR], \
@@ -107,3 +107,22 @@ TRACKS = [['Mario Kart Stadium', MKS], ['Water Park', WP], ['Sweet Sweet Canyon'
     ['Tour Sydney Sprint', bSS], ['GBA Snow Land', bSL], ['Wii Mushroom Gorge', bMG], ['Sky-High Sundae', bSHS], \
     ['Tour London Loop', bLL], ['GBA Boo Lake', bBL], ['3DS Rock Rock Mountain', bRRM], ['Wii Maple Treeway', bMT], \
     ['Tour Berlin Byways', bBB], ['DS Peach Gardens', bPG], ['Merry Mountain', bMM], ['3DS Rainbow Road', bRR7]]
+
+TRACKS = [['マリオカートスタジアム', MKS], ['ウォーターパーク', WP], ['スイーツキャニオン', SSC], ['ドッスンいせき', TR], \
+    ['マリオサーキット', MC], ['キノピオハーバー', TH], ['ねじれマンション', TM], ['ヘイホーこうざん', SGF], \
+    ['サンシャインくうこう', SA], ['ドルフィンみさき', DS], ['エレクトロドリーム', Ed], ['ワリオスノーマウンテン', MW], \
+    ['スカイガーデン', CC], ['ホネホネさばく', BDD], ["クッパキャッスル", BC], ['レインボーロード', RR], \
+    ['Wii モーモーカントリー', rMMM], ['GBA マリオサーキット', rMC], ['DS プクプクビーチ', rCCB], ["N64 キノピオハイウェイ", rTT], \
+    ['GC カラカラさばく', rDDD], ['SFC ドーナツへいや3', rDP3], ['N64 ピーチサーキット', rRRy], ['3DS DKジャングル', rDKJ], \
+    ['DS ワリオスタジアム', rWS], ['GC シャーベットランド', rSL], ['3DS ミュージックパーク', rMP], ['N64 ヨッシーバレー', rYV], \
+    ['DS チクタクロック', rTTC], ['3DS パックンスライダー', rPPS], ['Wii グラグラかざん', rGV], ['N64 レインボーロード', rRRd], \
+    ['GC ヨッシーサーキット', dYC], ['エキサイトバイク', dEA], ['ドラゴンロード', dDD], ['ミュートシティ', dMC], \
+    ["Wii ワリオこうざん", dWGM], ['SFC レインボーロード', dRR], ['ツルツルツイスター', dIIO], ['ハイラルサーキット', dHC], \
+    ['GC ベビィパーク', dBP], ['GBA チーズランド', dCL], ['ネイチャーロード', dWW], ['どうぶつの森', dAC], \
+    ['3DS ネオクッパシティ', dNBC], ['GBA リボンロード', dRiR], ['リンリンメトロ', dSBS], ['ビッグブルー', dBB], \
+    ['Tour パリプロムナード', bPP], ['3DS キノピオサーキット', bTC], ['N64 チョコマウンテン', bCMo], ['Wii ココナッツモール', bCMa], \
+    ['Tour トーキョースクランブル', bTB], ['DS キノコリッジウェイ', bSR], ['GBA スカイガーデン', bSG], ['Tour ニンニンドージョー', bNH], \
+    ['Tour ニューヨークドリーム', bNYM], ['SFC マリオサーキット3', bMC3], ['N64 カラカラさばく', bKD], ['DS ワルイージピンボール', bWP], \
+    ['Tour シドニーサンシャイン', bSS], ['GBA スノーランド', bSL], ['Wii キノコキャニオン', bMG], ['アイスビルディング', bSHS], \
+    ['Tour ロンドンアベニュー', bLL], ['GBA テレサレイク', bBL], ['3DS ロックロックマウンテン', bRRM], ['Wii メイプルツリーハウス', bMT], \
+    ['Tour ベルリンシュトラーセ', bBB], ['DS ピーチガーデン', bPG], ['Tour メリーメリーマウンテン', bMM], ['3DS レインボーロード', bRR7]]
