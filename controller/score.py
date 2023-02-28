@@ -42,6 +42,10 @@ async def show_avg_score(
             tiers = tiers.lower()
         else: 
             return [embed_err]
+    
+    if min_count != None:
+        if not min_count.isdecimal() or min_count < 0:
+            return [embed_err]
 
     _, fetched_tracks = sheet.fetch_tracks(ctx.author)
     _, fetched_ranks = sheet.fetch_ranks(ctx.author)
@@ -71,9 +75,12 @@ async def show_avg_score(
         tier_title = f' | Tier: {tiers.upper()}'
     else:
         tier_title = ''
-
+    if min_count != None:
+        min_title = f' ≧ {min_count}'
+    else:
+        min_title = ''
     embeds = [discord.Embed(
-        title=f'Average Score{formt_title}{tier_title} [Tracks Played]', color=color_success)]
+        title=f'Average Score{formt_title}{tier_title} [Tracks Played{min_title}]', color=color_success)]
 
     i = 0
     for (track_id, avg_score) in avg_score_per_track_sort:
@@ -85,7 +92,7 @@ async def show_avg_score(
         # embedのfieldは25個までしか追加できないので、embedを追加
         if (i % 25 == 0) and (i != 0):
             embeds.append(discord.Embed(
-                title=f'Average Score{formt_title}{tier_title} [Tracks Played]', color=color_success))
+                title=f'Average Score{formt_title}{tier_title} [Tracks Played{min_title}]', color=color_success))
         track_name = info.TRACKS[track_id][0]
         embeds[idx_list].add_field(
             name=track_name, value=f'> {round(avg_score, 2)} pts [{cnt_per_track[track_id]}]')
