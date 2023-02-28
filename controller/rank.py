@@ -45,7 +45,7 @@ async def show_avg_rank(
             return [embed_err]
         
     if min_count != None:
-        if not min_count.isdecimal() or min_count < 0:
+        if min_count < 0:
             return [embed_err]
 
     _, fetched_tracks = sheet.fetch_tracks(ctx.author)
