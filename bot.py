@@ -9,7 +9,10 @@ bot = commands.Bot(command_prefix='.', intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f'We have logged in as {bot.user}')
+    print("Logged in as {0.user}".format(bot))
+    await bot.change_presence(
+        activity=discord.Activity(status=discord.Status.online, type=discord.ActivityType.watching,
+                                  name=f"{len(bot.guilds)} servers"))
 
 
 @bot.command(aliases=['s', 'S'])
