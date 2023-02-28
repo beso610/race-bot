@@ -39,6 +39,12 @@ async def set(ctx, *args):
     await ctx.send(embed=sets.set_record(ctx, args))
 
 
+@bot.command(aliases=['d', 'del'])
+async def delete(ctx):
+    """最新の記録を削除する"""
+    await ctx.send(embed=deletes.delete_record(ctx))
+
+
 @bot.hybrid_command(
     aliases=['ar'],
     description='平均順位を表示する'
@@ -114,12 +120,6 @@ async def count(
         await ctx.interaction.response.defer(thinking=True)
     embed = await count.count_record(ctx, tracks, formats, tiers)
     await ctx.send(embed=embed)
-
-
-@bot.command(aliases=['d', 'del'])
-async def delete(ctx):
-    """最新の記録を削除する"""
-    await ctx.send(embeds=deletes.delete_record(ctx))
 
 
 @bot.event
