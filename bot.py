@@ -145,6 +145,31 @@ async def count(
     await ctx.send(embed=embed)
 
 
+@bot.hybrid_command(
+    aliases=['last'],
+    description='直近nレースの平均点数を表示する'
+)
+@app_commands.describe(
+    last='直近のレース数。デフォルト:10',
+    tracks='例: dkj; マリカス',
+    formats='例: 1; 2',
+    tiers='例: d; t(大会); w(野良)'
+)
+async def lastscore(
+    ctx: commands.Context,
+    last: Optional[int] = 10,
+    tracks: Optional[str] = None,
+    formats: Optional[int] = None,
+    tiers: Optional[str] = None,
+) -> None:
+    
+    """直近nレースの平均点数を表示する"""
+    if ctx.interaction is not None:
+        await ctx.interaction.response.defer(thinking=True)
+    embeds = await score.last(ctx, last, tracks, formats, tiers)
+    await ctx.send(embeds=embeds)
+
+
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):

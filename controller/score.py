@@ -182,3 +182,84 @@ async def view(
         embed.add_field(name=f'{score_group[group_idx-1]} ~ {score_group[group_idx]} pts', value=value, inline=False)
 
     return embed
+
+async def last(
+    ctx: commands.Context,
+    last: Optional[int] = 10,
+    tracks: Optional[str] = None,
+    formats: Optional[int] = None,
+    tiers: Optional[str] = None,
+) -> list[discord.Embed]:
+
+    track_id = None
+    
+    if tracks != None:
+        track_id = common.track_to_id(tracks.lower())
+        if track_id == -1:
+            return [embed_err]
+    
+    if last != None:
+        if last < 0:
+            return [embed_err]
+    
+    if formats != None:
+        if formats not in FORMAT_LIST:
+            return [embed_err]
+    
+    if tiers != None:
+        if tiers.lower() in TIER_LIST:
+            tiers = tiers.lower()
+        else: 
+            return [embed_err]
+
+    _, fetched_tracks = sheet.fetch_tracks(ctx.author)
+    _, fetched_ranks = sheet.fetch_ranks(ctx.author)
+    _, fetched_formats = sheet.fetch_formats(ctx.author)
+    _, fetched_tiers = sheet.fetch_tiers(ctx.author)
+
+    if (len(fetched_tracks) == 0) or (len(fetched_ranks) == 0):
+        return [discord.Embed(title='No Record', color=color_err)]
+
+    last_avg_score, cnt_per_track = common.calc_last_avg_score(
+        last, track_id, formats, tiers, fetched_tracks, fetched_ranks, fetched_formats, fetched_tiers)
+    
+    last_avg_score_sort = sorted(
+        last_avg_score.items(), key=lambda x: x[1], reverse=True)
+
+    if len(last_avg_score_sort) == 0:
+        return [discord.Embed(title='No Record', color=color_err)]
+
+    if formats != None:
+        formt_title = f' | Format: {formats}'
+    else:
+        formt_title = ''
+    if tiers == 't':
+        tier_title = ' | Tournament'
+    elif tiers == 'w':
+        tier_title = ' | Worlds'
+    elif tiers != None:
+        tier_title = f' | Tier: {tiers.upper()}'
+    else:
+        tier_title = ''
+
+    embeds = [discord.Embed(
+        title=f'Average Score{formt_title}{tier_title} [Tracks Played]', color=color_success)]
+
+    i = 0
+    for (track_id, last_avg_score) in last_avg_score_sort:
+        # last未満の場合は表示しないようにする
+        if cnt_per_track[track_id] < last:
+            continue
+
+        idx_list = i // 25
+        # embedのfieldは25個までしか追加できないので、embedを追加
+        if (i % 25 == 0) and (i != 0):
+            embeds.append(discord.Embed(
+                title=f'Average Score{formt_title}{tier_title} [Tracks Played]', color=color_success))
+        track_name = common.id_to_track(track_id)
+        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        embeds[idx_list].add_field(
+            name=f'{track_emoji} {track_name}', value=f'> {round(last_avg_score, 2)} pts [{cnt_per_track[track_id]}]')
+        i += 1
+
+    return embeds
