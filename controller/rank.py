@@ -3,7 +3,7 @@ from discord.ext import commands
 from typing import Optional
 from models import common
 import models.sheet as sheet
-from track import info
+from track.emoji import TRACK_EMOJI
 
 
 color_err = 0xff3333
@@ -95,9 +95,10 @@ async def show_avg_rank(
         if (i % 25 == 0) and (i != 0):
             embeds.append(discord.Embed(
                 title=f'Average Rank{formt_title}{tier_title} [Tracks Played{min_title}]', color=color_success))
-        track_name = info.TRACKS[track_id][0]
+        track_name = common.id_to_track(track_id)
+        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
         embeds[idx_list].add_field(
-            name=track_name, value=f'> {round(avg_rank, 2)}  [{cnt_per_track[track_id]}]')
+            name=f'{track_emoji} {track_name}', value=f'> {round(avg_rank, 2)}  [{cnt_per_track[track_id]}]')
         i += 1
 
     return embeds

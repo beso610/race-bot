@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import models.sheet as sheet
 from models import common
-
+from track.emoji import TRACK_EMOJI
 
 color_err = 0xff3333
 color_success = 0x00ff00
@@ -58,8 +58,11 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
         rank_description = f'{rank}th'
 
     if status == 200:
+        track_name = common.id_to_track(int(track_id))
+        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        
         embed = discord.Embed(
-            title=common.id_to_track(track_id),
+            title=f'{track_emoji} {track_name}',
             description=rank_description,
             color=color_success,
         )

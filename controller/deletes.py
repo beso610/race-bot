@@ -1,7 +1,8 @@
 import discord
 from discord.ext import commands
 import models.sheet as sheet
-from track import info
+from models import common
+from track.emoji import TRACK_EMOJI
 
 
 color_err = 0xff3333
@@ -20,10 +21,11 @@ def delete_record(ctx: commands.Context) -> discord.Embed:
             color=color_err
         )
 
-    track = info.TRACKS[int(track_id)][0]
+    track_name = common.id_to_track(int(track_id))
+    track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
     embed = discord.Embed(
         title='Delete Successful',
-        description=track,
+        description=f'{track_emoji} {track_name}',
         color=color_success
     )
     return embed

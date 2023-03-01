@@ -1,11 +1,12 @@
-from track import info
+from track.info import TRACKS
+from track.emoji import TRACK_EMOJI
 
 score_list = [15, 12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
 
 # コース名をコースIDに変換
 def track_to_id(track_name: str) -> int:
     # 一致するコース名を検索
-    for i, track_info in enumerate(info.TRACKS):
+    for i, track_info in enumerate(TRACKS):
         if track_name in track_info[1]:
             return i
     
@@ -13,7 +14,7 @@ def track_to_id(track_name: str) -> int:
 
 # コースIDをコース名に変換
 def id_to_track(track_id: int) -> str:
-    return info.TRACKS[track_id][0]
+    return TRACKS[track_id][0]
 
 # 平均順位を計算
 def calc_avg_rank(tgt_track_id, tgt_format, tgt_tier, track_list, rank_list, format_list, tier_list):

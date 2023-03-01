@@ -3,7 +3,8 @@ from discord.ext import commands
 from typing import Optional
 from models import common
 import models.sheet as sheet
-from track import info
+from track.info import TRACKS
+from track.emoji import TRACK_EMOJI
 
 
 color_err = 0xff3333
@@ -78,7 +79,8 @@ async def count_record(
     )
 
     for (track_id, cnt) in cnt_per_track_sort:
-        track_name = info.TRACKS[track_id][0]
-        embed.add_field(name=track_name, value=str(cnt))
+        track_name = common.id_to_track(int(track_id))
+        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        embed.add_field(name=f'{track_emoji} {track_name}', value=str(cnt))
 
     return embed

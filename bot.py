@@ -5,7 +5,7 @@ from discord import app_commands
 import logging
 import asyncio
 from typing import Optional
-from controller import deletes, score, rank, count, sets
+from controller import counts, deletes, score, rank, sets
 
 logging.basicConfig(level=logging.INFO)
 
@@ -118,7 +118,7 @@ async def count(
     """コースのプレイ回数を表示する"""
     if ctx.interaction is not None:
         await ctx.interaction.response.defer(thinking=True)
-    embed = await count.count_record(ctx, tracks, formats, tiers)
+    embed = await counts.count_record(ctx, tracks, formats, tiers)
     await ctx.send(embed=embed)
 
 
