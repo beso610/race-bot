@@ -46,6 +46,30 @@ async def delete(ctx):
 
 
 @bot.hybrid_command(
+    aliases=['v'],
+    description='点数ごとにまとめて表示する'
+)
+@app_commands.describe(
+    min_count='指定の回数以上にしぼって表示する',
+    formats='ex: 2',
+    tiers='ex: d',
+)
+async def view(
+    ctx: commands.Context,
+    *,
+    min_count: Optional[int] = None,
+    formats: Optional[int] = None,
+    tiers: Optional[str] = None,
+) -> None:
+    
+    """点数ごとにまとめて表示する"""
+    if ctx.interaction is not None:
+        await ctx.interaction.response.defer(thinking=True)
+    embed = await score.view(ctx, min_count, formats, tiers)
+    await ctx.send(embed=embed)
+
+    
+@bot.hybrid_command(
     aliases=['ar'],
     description='平均順位を表示する'
 )
@@ -69,7 +93,6 @@ async def avgrank(
         await ctx.interaction.response.defer(thinking=True)
     embeds = await rank.show_avg_rank(ctx, tracks, formats, tiers, min_count)
     await ctx.send(embeds=embeds)
-
 
 
 @bot.hybrid_command(

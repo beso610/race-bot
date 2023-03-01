@@ -100,3 +100,85 @@ async def show_avg_score(
         i += 1
 
     return embeds
+
+
+async def view(
+    ctx: commands.Context,
+    min_count: Optional[int] = None,
+    formats: Optional[int] = None,
+    tiers: Optional[str] = None,
+) -> discord.Embed:
+
+    score_group = [15, 10, 7, 4, 1]
+
+    track_id = None
+    
+    if formats != None:
+        if formats not in FORMAT_LIST:
+            return embed_err
+    
+    if tiers != None:
+        if tiers.lower() in TIER_LIST:
+            tiers = tiers.lower()
+        else: 
+            return embed_err
+    
+    if min_count != None:
+        if min_count < 0:
+            return embed_err
+
+    _, fetched_tracks = sheet.fetch_tracks(ctx.author)
+    _, fetched_ranks = sheet.fetch_ranks(ctx.author)
+    _, fetched_formats = sheet.fetch_formats(ctx.author)
+    _, fetched_tiers = sheet.fetch_tiers(ctx.author)
+
+    if (len(fetched_tracks) == 0) or (len(fetched_ranks) == 0):
+        return [discord.Embed(title='No Record', color=color_err)]
+
+    avg_score_per_track, cnt_per_track = common.calc_avg_score(
+        track_id, formats, tiers, fetched_tracks, fetched_ranks, fetched_formats, fetched_tiers)
+    avg_score_per_track_sort = sorted(
+        avg_score_per_track.items(), key=lambda x: x[1], reverse=True)
+
+    if len(avg_score_per_track_sort) == 0:
+        return discord.Embed(title='No Record', color=color_err)
+
+    if formats != None:
+        formt_title = f' | Format: {formats}'
+    else:
+        formt_title = ''
+    if tiers == 't':
+        tier_title = ' | Tournament'
+    elif tiers == 'w':
+        tier_title = ' | Worlds'
+    elif tiers != None:
+        tier_title = f' | Tier: {tiers.upper()}'
+    else:
+        tier_title = ''
+    if min_count != None:
+        min_title = f' | Tracks Played ≧ {min_count}'
+    else:
+        min_title = ''
+    embed = discord.Embed(
+        title=f'Average Score{formt_title}{tier_title}{min_title}', color=color_success)
+
+    group_idx = 1
+    value = ''
+    for (track_id, avg_score) in avg_score_per_track_sort:
+        # min未満であれば表示しない
+        if min_count != None and cnt_per_track[track_id] < min_count:
+            continue
+
+        while score_group[group_idx] > avg_score:
+            if value != '':
+                embed.add_field(name=f'{score_group[group_idx-1]} ~ {score_group[group_idx]} pts', value=value, inline=False)
+            group_idx += 1
+            value = ''
+
+        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        value += f' {track_emoji}'
+    
+    if value != '':
+        embed.add_field(name=f'{score_group[group_idx-1]} ~ {score_group[group_idx]} pts', value=value, inline=False)
+
+    return embed
