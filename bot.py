@@ -51,8 +51,8 @@ async def delete(ctx):
 )
 @app_commands.describe(
     min_count='指定の回数以上にしぼって表示する',
-    formats='ex: 2',
-    tiers='ex: d',
+    formats='例: 1; 2',
+    tiers='例: d; t(大会); w(野良)'
 )
 async def view(
     ctx: commands.Context,
@@ -74,9 +74,9 @@ async def view(
     description='平均順位を表示する'
 )
 @app_commands.describe(
-    tracks='例: dkj',
-    formats='例: 2',
-    tiers='例: d',
+    tracks='例: dkj; マリカス',
+    formats='例: 1; 2',
+    tiers='例: d; t(大会); w(野良)',
     min_count='指定の回数以上にしぼって表示する'
 )
 async def avgrank(
@@ -100,9 +100,9 @@ async def avgrank(
     description='平均点数を表示する'
 )
 @app_commands.describe(
-    tracks='ex: dkj',
-    formats='ex: 2',
-    tiers='ex: d',
+    tracks='例: dkj; マリカス',
+    formats='例: 1; 2',
+    tiers='例: d; t(大会); w(野良)',
     min_count='指定の回数以上にしぼって表示する'
 )
 async def avgscore(
@@ -126,9 +126,9 @@ async def avgscore(
     description='プレイ回数を表示する'
 )
 @app_commands.describe(
-    tracks='ex: dkj',
-    formats='ex: 2',
-    tiers='ex: d'
+    tracks='例: dkj; マリカス',
+    formats='例: 1; 2',
+    tiers='例: d; t(大会); w(野良)'
 )
 async def count(
     ctx: commands.Context,
