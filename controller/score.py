@@ -255,7 +255,7 @@ async def last(
         # embedのfieldは25個までしか追加できないので、embedを追加
         if (i % 25 == 0) and (i != 0):
             embeds.append(discord.Embed(
-                title=f'Average Score{formt_title}{tier_title} [Tracks Played]', color=color_success))
+                title=f'Average Score | Last {last}{formt_title}{tier_title} [Tracks Played]', color=color_success))
         track_name = common.id_to_track(track_id)
         track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
         embeds[idx_list].add_field(
