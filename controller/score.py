@@ -241,7 +241,8 @@ async def last(
         tier_title = f' | Tier: {tiers.upper()}'
     else:
         tier_title = ''
-    last_title = f' | Last {last}'
+    if last != None:
+        last_title = f' | Last {last}'
 
     embeds = [discord.Embed(
         title=f'Average Score{last_title}{formt_title}{tier_title} [Tracks Played]', color=color_success)]
