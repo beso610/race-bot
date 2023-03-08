@@ -59,7 +59,10 @@ def set_record(ctx: commands.Context, args: list[str]) -> discord.Embed:
 
     if status == 200:
         track_name = common.id_to_track(int(track_id))
-        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        if track_id < 72:
+            track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        else:
+            track_emoji = ''
         
         embed = discord.Embed(
             title=f'{track_emoji} {track_name}',

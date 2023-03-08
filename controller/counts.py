@@ -80,7 +80,10 @@ async def count_record(
 
     for (track_id, cnt) in cnt_per_track_sort:
         track_name = common.id_to_track(int(track_id))
-        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        if track_id < 72:
+            track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        else:
+            track_emoji = ''
         embed.add_field(name=f'{track_emoji} {track_name}', value=str(cnt))
 
     return embed

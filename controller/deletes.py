@@ -22,7 +22,10 @@ def delete_record(ctx: commands.Context) -> discord.Embed:
         )
 
     track_name = common.id_to_track(int(track_id))
-    track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[int(track_id)])
+    if int(track_id) < 72:
+        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[int(track_id)])
+    else:
+        track_emoji = ''
     embed = discord.Embed(
         title='Delete Successful',
         description=f'{track_emoji} {track_name}',

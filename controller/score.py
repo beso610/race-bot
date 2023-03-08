@@ -94,7 +94,10 @@ async def show_avg_score(
             embeds.append(discord.Embed(
                 title=f'Average Score{formt_title}{tier_title} [Tracks Played{min_title}]', color=color_success))
         track_name = common.id_to_track(track_id)
-        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        if track_id < 72:
+            track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        else:
+            track_emoji = ''
         embeds[idx_list].add_field(
             name=f'{track_emoji} {track_name}', value=f'> {round(avg_score, 2)} pts [{cnt_per_track[track_id]}]')
         i += 1
@@ -175,7 +178,11 @@ async def view(
             group_idx += 1
             value = ''
 
-        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        if track_id < 72:
+            track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        else:
+            track_emoji = ''
+
         value += f' {track_emoji}'
     
     if value != '':
@@ -259,7 +266,11 @@ async def last(
             embeds.append(discord.Embed(
                 title=f'Average Score{last_title}{formt_title}{tier_title} [Tracks Played]', color=color_success))
         track_name = common.id_to_track(track_id)
-        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        if track_id < 72:
+            track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        else:
+            track_emoji = ''
+
         embeds[idx_list].add_field(
             name=f'{track_emoji} {track_name}', value=f'> {round(last_avg_score, 2)} pts [{cnt_per_track[track_id]}]')
         i += 1

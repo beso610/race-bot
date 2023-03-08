@@ -96,7 +96,11 @@ async def show_avg_rank(
             embeds.append(discord.Embed(
                 title=f'Average Rank{formt_title}{tier_title} [Tracks Played{min_title}]', color=color_success))
         track_name = common.id_to_track(track_id)
-        track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        
+        if track_id < 72:
+            track_emoji = ctx.bot.get_emoji(TRACK_EMOJI[track_id])
+        else:
+            track_emoji = ''
         embeds[idx_list].add_field(
             name=f'{track_emoji} {track_name}', value=f'> {round(avg_rank, 2)}  [{cnt_per_track[track_id]}]')
         i += 1
